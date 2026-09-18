@@ -48,7 +48,7 @@ type Props = {
 export default function RoomCanvas({ treated, active }: Props) {
   return (
     <Canvas
-      shadows
+      shadows="percentage"
       dpr={[1, 2]}
       frameloop={active ? 'always' : 'never'}
       camera={{ position: [0, 2.6, 8.6], fov: 42 }}
