@@ -244,6 +244,12 @@
 }
 
 @media (max-width: 560px) {
+  /* a shorter stage keeps the camera's lens narrower on phones, so the room fills the frame
+     instead of sitting under a band of empty ceiling */
+  .room-stage {
+    height: clamp(440px, 64vh, 560px);
+  }
+
   .room-controls {
     left: 12px;
     right: 12px;
