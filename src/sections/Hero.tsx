@@ -74,7 +74,7 @@ export function Hero() {
         </div>
       </div>
 
-      {webgl && (
+      {webgl && !still && (
         <p className="hero-caption" aria-hidden="true">
           <span className="hero-caption-fine">Move across the wall to send sound through it · click to clap</span>
           <span className="hero-caption-touch">Tap the wall to clap</span>
