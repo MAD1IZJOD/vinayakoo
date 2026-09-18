@@ -27,6 +27,8 @@ export function SoundRings({ progress }: { progress: Progress }) {
   const meshes = useRef<(Mesh | null)[]>([])
   const rings = useMemo<Ring[]>(() => Array.from({ length: POOL }, () => ({ born: 0, x: 0, level: 0, active: false })), [])
   const nextPulse = useRef(0.4)
+  // own running time, because the renderer's clock jumps when the loop pauses off screen
+  const time = useRef(0)
   const color = useMemo(() => new Color(), [])
 
   const emit = (born: number, x: number, level: number) => {
@@ -34,8 +36,9 @@ export function SoundRings({ progress }: { progress: Progress }) {
     if (ring) Object.assign(ring, { born, x, level, active: true })
   }
 
-  useFrame(({ clock }) => {
-    const now = clock.elapsedTime
+  useFrame((_, delta) => {
+    time.current += Math.min(delta, 0.1)
+    const now = time.current
     const p = progress.current
     const rt = rtAt(p) * VISUAL_STRETCH
 
