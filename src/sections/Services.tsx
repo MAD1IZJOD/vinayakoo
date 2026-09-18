@@ -6,10 +6,10 @@ export function Services() {
   return (
     <section className="section" id="services">
       <div className="container">
-        <div className="section-head" data-reveal>
-          <p className="eyebrow">Services</p>
-          <h2>Any room where sound matters.</h2>
-          <p>
+        <div className="section-head">
+          <p className="eyebrow" data-reveal>Services</p>
+          <h2 data-split>Any room where sound matters.</h2>
+          <p data-reveal>
             We handle the acoustics end to end, from the first measurement to the last panel, and work alongside your
             architect or interior designer when there is one.
           </p>

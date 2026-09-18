@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { smoothScroll } from '../lib/motion'
 import { nav, site } from '../lib/site'
 import './Header.css'
 
@@ -15,6 +16,9 @@ export function Header() {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
+    // the smooth scroller keeps moving the page under an open menu unless it is paused too
+    if (open) smoothScroll()?.stop()
+    else smoothScroll()?.start()
   }, [open])
 
   const close = () => setOpen(false)

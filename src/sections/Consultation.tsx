@@ -112,10 +112,10 @@ export function Consultation() {
   return (
     <section className="section consult" id="consult">
       <div className="container consult-layout">
-        <div className="section-head consult-intro" data-reveal>
-          <p className="eyebrow">Consultation</p>
-          <h2>Tell us about your room.</h2>
-          <p>
+        <div className="section-head consult-intro">
+          <p className="eyebrow" data-reveal>Consultation</p>
+          <h2 data-split>Tell us about your room.</h2>
+          <p data-reveal>
             Two minutes of questions helps us come to the first conversation prepared. We&apos;ll get back to you
             within two working days to arrange a visit or a video call.
           </p>

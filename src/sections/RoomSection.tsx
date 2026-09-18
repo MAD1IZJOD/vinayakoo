@@ -52,10 +52,10 @@ export function RoomSection() {
   return (
     <section ref={sectionRef} className="section room-section" id="room">
       <div className="container">
-        <div className="section-head" data-reveal>
-          <p className="eyebrow">The room</p>
-          <h2>Step inside a room before we build it.</h2>
-          <p>
+        <div className="section-head">
+          <p className="eyebrow" data-reveal>The room</p>
+          <h2 data-split>Step inside a room before we build it.</h2>
+          <p data-reveal>
             Every project starts as a model like this one. Here is a typical media room with hard walls, a smooth
             floor and a screen that deserves better sound. Drag to look around, then treat it and listen to what
             changes.

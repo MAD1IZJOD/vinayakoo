@@ -6,10 +6,10 @@ export function Process() {
   return (
     <section className="section process" id="process">
       <div className="container">
-        <div className="section-head" data-reveal>
-          <p className="eyebrow">Process</p>
-          <h2>Measured before, measured after.</h2>
-          <p>
+        <div className="section-head">
+          <p className="eyebrow" data-reveal>Process</p>
+          <h2 data-split>Measured before, measured after.</h2>
+          <p data-reveal>
             Good acoustics isn&apos;t guesswork. Every project follows the same four steps, and you see the numbers at
             each one.
           </p>
