@@ -1,0 +1,341 @@
+.consult-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.consult-intro {
+  position: sticky;
+  top: 120px;
+  margin-bottom: 0;
+}
+
+.consult-direct {
+  font-size: 15px !important;
+}
+
+.consult-direct a {
+  color: var(--brass);
+  text-underline-offset: 4px;
+}
+
+.consult-card {
+  padding: clamp(24px, 4vw, 44px);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 6px);
+  background: var(--bg-raised);
+}
+
+.consult-progress {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.consult-progress li {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+.consult-progress li::before {
+  content: '';
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line-strong);
+  transition: background 0.4s var(--ease);
+}
+
+.consult-progress li.is-done::before,
+.consult-progress li.is-current::before {
+  background: var(--brass);
+}
+
+.consult-progress li.is-current {
+  color: var(--ink);
+}
+
+.consult-step-title {
+  margin-bottom: 24px;
+  font-size: clamp(26px, 3vw, 34px);
+}
+
+.consult-step-title:focus,
+.consult-done h3:focus {
+  outline: none;
+}
+
+.consult-fieldset {
+  min-width: 0;
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+
+.consult-fieldset legend {
+  margin-bottom: 12px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.consult-optional {
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-faint);
+}
+
+.consult-spaces {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.consult-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.consult-choice {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--bg);
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    border-color 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.consult-chips .consult-choice {
+  border-radius: 999px;
+  padding: 9px 16px;
+}
+
+.consult-spaces .consult-choice {
+  padding: 16px 18px;
+}
+
+.consult-choice:hover {
+  border-color: var(--ink-muted);
+}
+
+.consult-choice.is-checked {
+  border-color: var(--brass);
+  background: rgba(201, 164, 106, 0.1);
+}
+
+.consult-choice:has(input:focus-visible) {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.consult-choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.consult-choice strong {
+  font-weight: 500;
+}
+
+.consult-choice small {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.consult-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 16px;
+}
+
+.consult-wide {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+.consult-field {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.consult-field input,
+.consult-field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 16px;
+  font-weight: 400;
+  transition: border-color 0.25s var(--ease);
+}
+
+.consult-field textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.consult-field input::placeholder,
+.consult-field textarea::placeholder {
+  color: var(--ink-faint);
+}
+
+.consult-field input:focus,
+.consult-field textarea:focus {
+  border-color: var(--brass);
+  outline: none;
+}
+
+.consult-field [aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.consult-error {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--danger);
+}
+
+.consult-field .consult-error {
+  margin-top: 0;
+}
+
+.consult-submit-error a {
+  color: inherit;
+}
+
+.consult-review {
+  display: grid;
+  margin: 0 0 8px;
+}
+
+.consult-review div {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.consult-review dt {
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+.consult-review dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.consult-edit {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  font-size: 13px;
+  color: var(--brass);
+  cursor: pointer;
+}
+
+.consult-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.consult-done {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  padding: 12px 0;
+}
+
+.consult-done h3 {
+  font-size: clamp(28px, 3vw, 36px);
+}
+
+.consult-done p {
+  color: var(--ink-muted);
+}
+
+.consult-done a {
+  color: var(--brass);
+}
+
+.consult-done-mark {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--brass);
+  border-radius: 50%;
+  position: relative;
+}
+
+.consult-done-mark::after {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 12px;
+  width: 10px;
+  height: 18px;
+  border: solid var(--brass);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 960px) {
+  .consult-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .consult-intro {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .consult-card {
+    margin-inline: calc(var(--gutter) * -0.5);
+  }
+
+  .consult-progress span {
+    display: none;
+  }
+
+  .consult-spaces,
+  .consult-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .consult-review div {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 16px;
+  }
+
+  .consult-review dt {
+    grid-column: 1 / -1;
+  }
+
+  .consult-actions .btn {
+    flex: 1;
+  }
+}
