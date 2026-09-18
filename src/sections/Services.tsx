@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { services } from '../lib/content'
 import './Services.css'
 
@@ -5,7 +6,7 @@ export function Services() {
   return (
     <section className="section" id="services">
       <div className="container">
-        <div className="section-head">
+        <div className="section-head" data-reveal>
           <p className="eyebrow">Services</p>
           <h2>Any room where sound matters.</h2>
           <p>
@@ -16,7 +17,12 @@ export function Services() {
 
         <div className="services-grid">
           {services.map((service, i) => (
-            <article key={service.title} className="service-card">
+            <article
+              key={service.title}
+              className="service-card"
+              data-reveal
+              style={{ '--reveal-order': i } as CSSProperties}
+            >
               <span className="service-index">{String(i + 1).padStart(2, '0')}</span>
               <h3>{service.title}</h3>
               <p>{service.body}</p>

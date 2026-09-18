@@ -112,7 +112,7 @@ export function Consultation() {
   return (
     <section className="section consult" id="consult">
       <div className="container consult-layout">
-        <div className="section-head consult-intro">
+        <div className="section-head consult-intro" data-reveal>
           <p className="eyebrow">Consultation</p>
           <h2>Tell us about your room.</h2>
           <p>
@@ -124,7 +124,7 @@ export function Consultation() {
           </p>
         </div>
 
-        <div className="consult-card">
+        <div className="consult-card" data-reveal>
           {done ? (
             <div className="consult-done">
               <span className="consult-done-mark" aria-hidden="true" />

@@ -52,7 +52,7 @@ export function RoomSection() {
   return (
     <section ref={sectionRef} className="section room-section" id="room">
       <div className="container">
-        <div className="section-head">
+        <div className="section-head" data-reveal>
           <p className="eyebrow">The room</p>
           <h2>Step inside a room before we build it.</h2>
           <p>
@@ -113,7 +113,7 @@ export function RoomSection() {
         </div>
       </div>
 
-      <div className="container room-detail">
+      <div className="container room-detail" data-reveal>
         <div className="room-treatments">
           <h3>What changed</h3>
           <ol>

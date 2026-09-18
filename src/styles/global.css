@@ -181,3 +181,17 @@ textarea {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+.reveal-ready [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.reveal-ready [data-reveal] {
+  transition:
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease),
+    background 0.4s var(--ease);
+  --reveal-delay: calc(var(--reveal-order, 0) * 70ms);
+  transition-delay: var(--reveal-delay), var(--reveal-delay), 0s;
+}
