@@ -1,4 +1,5 @@
 .decay-chart {
+  min-width: 0;
   margin: 0;
   padding: 24px;
   border: 1px solid var(--line);
@@ -42,6 +43,7 @@
 .decay-plot {
   position: relative;
   width: 100%;
+  min-width: 0;
 }
 
 .decay-plot svg {

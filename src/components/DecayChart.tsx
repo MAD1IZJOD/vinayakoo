@@ -15,7 +15,8 @@ const series = [
 
 export function DecayChart({ treated }: { treated: boolean }) {
   const wrap = useRef<HTMLDivElement>(null)
-  const [width, setWidth] = useState(520)
+  // starts at zero so the chart never forces its container wider before it has been measured
+  const [width, setWidth] = useState(0)
   const [hoverT, setHoverT] = useState<number | null>(null)
 
   useEffect(() => {
@@ -52,62 +53,64 @@ export function DecayChart({ treated }: { treated: boolean }) {
         </span>
       </figcaption>
 
-      <div ref={wrap} className="decay-plot">
-        <svg width={width} height={HEIGHT} role="img" aria-label="Sound level decay over time, untreated versus treated room">
-          {GRID_DB.map((db) => (
-            <g key={db}>
-              <line x1={PAD.left} x2={width - PAD.right} y1={y(db)} y2={y(db)} className="decay-grid" />
-              <text x={PAD.left - 8} y={y(db) + 4} textAnchor="end" className="decay-axis">
-                {db} dB
-              </text>
-            </g>
-          ))}
-          {TICKS_S.filter((_, i) => !narrow || i % 2 === 0).map((t) => (
-            <text key={t} x={x(t)} y={HEIGHT - 12} textAnchor="middle" className="decay-axis">
-              {t === 0 ? '0 s' : t.toFixed(1)}
-            </text>
-          ))}
-
-          {series.map((s) => {
-            const active = (s.key === 'treated') === treated
-            const endT = Math.min(s.rt, MAX_T)
-            // label each line partway down, to its right, where the other line is far away
-            const labelDb = s.key === 'treated' ? -40 : -24
-            const labelT = (-labelDb / 60) * s.rt
-            return (
-              <g key={s.key} className={`decay-series${active ? ' is-active' : ''}`}>
-                <line
-                  x1={x(0)}
-                  y1={y(0)}
-                  x2={x(endT)}
-                  y2={y(levelAt(endT, s.rt))}
-                  stroke={s.color}
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                />
-                <circle cx={x(endT)} cy={y(levelAt(endT, s.rt))} r={4} fill={s.color} stroke="var(--bg-raised)" strokeWidth={2} />
-                <text x={x(labelT) + 12} y={y(labelDb) + 4} className="decay-label">
-                  {s.label} · {s.rt.toFixed(2)} s
+      <div ref={wrap} className="decay-plot" style={{ height: HEIGHT }}>
+        {width > 0 && (
+          <svg width={width} height={HEIGHT} role="img" aria-label="Sound level decay over time, untreated versus treated room">
+            {GRID_DB.map((db) => (
+              <g key={db}>
+                <line x1={PAD.left} x2={width - PAD.right} y1={y(db)} y2={y(db)} className="decay-grid" />
+                <text x={PAD.left - 8} y={y(db) + 4} textAnchor="end" className="decay-axis">
+                  {db} dB
                 </text>
               </g>
-            )
-          })}
+            ))}
+            {TICKS_S.filter((_, i) => !narrow || i % 2 === 0).map((t) => (
+              <text key={t} x={x(t)} y={HEIGHT - 12} textAnchor="middle" className="decay-axis">
+                {t === 0 ? '0 s' : t.toFixed(1)}
+              </text>
+            ))}
 
-          {hoverT !== null && (
-            <line x1={x(hoverT)} x2={x(hoverT)} y1={PAD.top} y2={PAD.top + plotH} className="decay-crosshair" />
-          )}
+            {series.map((s) => {
+              const active = (s.key === 'treated') === treated
+              const endT = Math.min(s.rt, MAX_T)
+              // label each line partway down, to its right, where the other line is far away
+              const labelDb = s.key === 'treated' ? -40 : -24
+              const labelT = (-labelDb / 60) * s.rt
+              return (
+                <g key={s.key} className={`decay-series${active ? ' is-active' : ''}`}>
+                  <line
+                    x1={x(0)}
+                    y1={y(0)}
+                    x2={x(endT)}
+                    y2={y(levelAt(endT, s.rt))}
+                    stroke={s.color}
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                  />
+                  <circle cx={x(endT)} cy={y(levelAt(endT, s.rt))} r={4} fill={s.color} stroke="var(--bg-raised)" strokeWidth={2} />
+                  <text x={x(labelT) + 12} y={y(labelDb) + 4} className="decay-label">
+                    {s.label} · {s.rt.toFixed(2)} s
+                  </text>
+                </g>
+              )
+            })}
 
-          <rect
-            x={PAD.left}
-            y={PAD.top}
-            width={Math.max(plotW, 0)}
-            height={plotH}
-            fill="transparent"
-            onPointerMove={onMove}
-            onPointerDown={onMove}
-            onPointerLeave={() => setHoverT(null)}
-          />
-        </svg>
+            {hoverT !== null && (
+              <line x1={x(hoverT)} x2={x(hoverT)} y1={PAD.top} y2={PAD.top + plotH} className="decay-crosshair" />
+            )}
+
+            <rect
+              x={PAD.left}
+              y={PAD.top}
+              width={Math.max(plotW, 0)}
+              height={plotH}
+              fill="transparent"
+              onPointerMove={onMove}
+              onPointerDown={onMove}
+              onPointerLeave={() => setHoverT(null)}
+            />
+          </svg>
+        )}
 
         {hoverT !== null && (
           <div
