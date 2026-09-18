@@ -1,3 +1,4 @@
+import { useGSAP } from '@gsap/react'
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { DecayChart } from '../components/DecayChart'
 import { ErrorBoundary } from '../components/ErrorBoundary'
@@ -5,6 +6,7 @@ import { PlanView } from '../experience/PlanView'
 import { useInView } from '../hooks/useInView'
 import { useTween } from '../hooks/useTween'
 import { rtAt, treatments } from '../lib/acoustics'
+import { gsap, reducedMotion } from '../lib/motion'
 import { RoomAudio } from '../lib/roomAudio'
 import { hasWebGL } from '../lib/webgl'
 import './RoomSection.css'
@@ -36,6 +38,30 @@ export function RoomSection() {
   }, [sectionInView])
 
   useEffect(() => () => audio.current?.dispose(), [])
+
+  // the room opens out from an inset frame to the full width as it scrolls into view
+  useGSAP(
+    () => {
+      if (reducedMotion()) return
+      gsap.fromTo(
+        '.room-stage',
+        { clipPath: 'inset(9% 7% 9% 7% round 28px)' },
+        {
+          clipPath: 'inset(0% 0% 0% 0% round 0px)',
+          ease: 'none',
+          scrollTrigger: { trigger: '.room-stage', start: 'top 95%', end: 'top 25%', scrub: 0.6 },
+        },
+      )
+      gsap.from('.room-controls', {
+        y: 40,
+        autoAlpha: 0,
+        duration: 1,
+        ease: 'expo.out',
+        scrollTrigger: { trigger: '.room-stage', start: 'top 40%', once: true },
+      })
+    },
+    { scope: sectionRef },
+  )
 
   const toggleListening = async () => {
     audio.current ??= new RoomAudio()

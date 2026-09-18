@@ -1,0 +1,52 @@
+.marquee {
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 56px) 0;
+  border-top: 1px solid var(--line);
+  user-select: none;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  padding-right: clamp(24px, 4vw, 56px);
+  font-family: var(--font-display);
+  font-size: clamp(56px, 11vw, 168px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.marquee-track .marquee-outline {
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--brass);
+}
+
+/* a small diffuser-block glyph between names */
+.marquee-track i {
+  width: 0.28em;
+  height: 0.28em;
+  border-radius: 3px;
+  background: var(--brass);
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    flex-wrap: wrap;
+    width: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .marquee-track span[aria-hidden] {
+    display: none;
+  }
+}
