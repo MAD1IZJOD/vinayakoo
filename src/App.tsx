@@ -1,3 +1,4 @@
+import { Cursor } from './components/Cursor'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Marquee } from './components/Marquee'
@@ -24,6 +25,7 @@ export default function App() {
         <Consultation />
       </main>
       <Footer />
+      <Cursor />
     </>
   )
 }

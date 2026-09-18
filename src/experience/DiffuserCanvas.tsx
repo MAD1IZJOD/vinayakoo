@@ -76,6 +76,7 @@ function usePointer(target: RefObject<HTMLElement | null>) {
 
 const createWallState = () => ({
       time: 0,
+      overWall: false,
       ripples: [] as Ripple[],
       lastSpawn: { x: 0, y: 0, at: -10 },
       lastDown: -1,
@@ -195,6 +196,11 @@ function Wall({ target, still }: { target: RefObject<HTMLElement | null>; still:
 
     const local = p.inside ? onWall(p.ndc) : null
     const onGrid = local !== null
+    if (onGrid !== state.overWall) {
+      // lets the page (the cursor ring) know when a click would clap
+      state.overWall = onGrid
+      target.current?.toggleAttribute('data-over-wall', onGrid)
+    }
     if (local && glow.current) glow.current.position.copy(state.hit).addScaledVector(state.normal, 0.9)
 
     if (!still) {
@@ -263,7 +269,7 @@ type Props = {
 export default function DiffuserCanvas({ target, active, still }: Props) {
   return (
     <Canvas
-      shadows={!coarse}
+      shadows={!coarse && 'percentage'}
       dpr={coarse ? [1, 1.5] : [1, 2]}
       frameloop={still ? 'demand' : active ? 'always' : 'never'}
       camera={{ position: [0, 0, 6.5], fov: 38 }}

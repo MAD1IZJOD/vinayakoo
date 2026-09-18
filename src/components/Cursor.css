@@ -1,0 +1,62 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.cursor.is-visible {
+  opacity: 1;
+}
+
+/* the ring is centred on the pointer; its size changes, never its position */
+.cursor::before {
+  content: '';
+  position: absolute;
+  left: -18px;
+  top: -18px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(201, 164, 106, 0.7);
+  border-radius: 50%;
+  transition:
+    transform 0.45s var(--ease),
+    background 0.45s var(--ease),
+    border-color 0.45s var(--ease);
+}
+
+.cursor.is-link::before {
+  transform: scale(1.7);
+  border-color: transparent;
+  background: rgba(201, 164, 106, 0.16);
+}
+
+.cursor.is-clap::before {
+  transform: scale(2);
+  border-color: transparent;
+  background: rgba(201, 164, 106, 0.9);
+}
+
+.cursor span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1a140b;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.45s var(--ease);
+}
+
+.cursor.is-clap span {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
