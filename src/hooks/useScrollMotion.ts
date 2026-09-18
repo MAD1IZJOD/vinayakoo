@@ -16,8 +16,10 @@ export function useScrollMotion() {
         type: 'lines',
         mask: 'lines',
         autoSplit: true,
-        onSplit: (self) =>
-          gsap.from(self.lines, {
+        onSplit: (self) => {
+          // room for descenders, which the line masks would otherwise clip
+          gsap.set(self.masks, { paddingBottom: '0.14em', marginBottom: '-0.14em' })
+          return gsap.from(self.lines, {
             yPercent: 115,
             rotateX: -50,
             transformOrigin: '50% 100%',
@@ -25,7 +27,8 @@ export function useScrollMotion() {
             ease: 'expo.out',
             stagger: 0.09,
             scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-          }),
+          })
+        },
       })
     }
 
