@@ -1,24 +1,92 @@
 .services-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--line);
-  overflow: hidden;
+  gap: clamp(14px, 2vw, 24px);
 }
 
 .service-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  --gy: 0%;
+  perspective: 1100px;
+}
+
+.service-inner {
+  position: relative;
   display: grid;
   align-content: start;
   gap: 16px;
+  height: 100%;
   padding: clamp(28px, 4vw, 48px);
-  background: var(--bg);
-  transition: background 0.4s var(--ease);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 8px);
+  background:
+    linear-gradient(160deg, rgba(239, 232, 220, 0.045), transparent 45%),
+    var(--bg-raised);
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition:
+    transform 0.7s var(--ease),
+    border-color 0.4s var(--ease),
+    box-shadow 0.7s var(--ease);
 }
 
-.service-card:hover {
-  background: var(--bg-raised);
+/* glare that follows the pointer across the surface */
+.service-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--gx) var(--gy), rgba(224, 189, 130, 0.13), transparent 60%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease);
+}
+
+.service-card:hover .service-inner {
+  border-color: rgba(201, 164, 106, 0.35);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+  transition:
+    transform 0.2s linear,
+    border-color 0.4s var(--ease),
+    box-shadow 0.7s var(--ease);
+}
+
+.service-card:hover .service-inner::after {
+  opacity: 1;
+}
+
+.service-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.service-inner h3 {
+  font-size: clamp(28px, 3vw, 40px);
+}
+
+.service-top,
+.service-inner h3,
+.service-inner p,
+.service-inner ul {
+  transition: transform 0.7s var(--ease);
+}
+
+/* while tilting, content lifts to different depths so the card reads as layered (flat at rest,
+   where the offsets would soften the text) */
+.service-card:hover .service-top {
+  transform: translateZ(40px);
+}
+
+.service-card:hover .service-inner h3 {
+  transform: translateZ(30px);
+}
+
+.service-card:hover .service-inner p,
+.service-card:hover .service-inner ul {
+  transform: translateZ(16px);
 }
 
 .service-index {
@@ -27,16 +95,32 @@
   color: var(--brass);
 }
 
-.service-card h3 {
-  font-size: clamp(26px, 3vw, 36px);
+.service-blocks {
+  display: grid;
+  grid-template-columns: repeat(3, 12px);
+  gap: 3px;
+  transform-style: preserve-3d;
 }
 
-.service-card p {
+.service-blocks i {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--brass) calc(35% + var(--d) * 9%), var(--bg-raised));
+  transform: translateZ(0);
+  transition: transform 0.7s var(--ease);
+}
+
+.service-card:hover .service-blocks i {
+  transform: translateZ(calc(var(--d) * 7px));
+}
+
+.service-inner p {
   max-width: 44ch;
   color: var(--ink-muted);
 }
 
-.service-card ul {
+.service-inner ul {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -45,7 +129,7 @@
   list-style: none;
 }
 
-.service-card li {
+.service-inner li {
   padding: 5px 12px;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
