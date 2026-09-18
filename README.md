@@ -1,6 +1,6 @@
-# Vinayaakoo
+# Vinacou
 
-Marketing site for Vinayaakoo, a studio that designs and builds acoustic interiors: home theatres, recording rooms, workspaces and halls.
+Marketing site for Vinacou, a studio that designs and builds acoustic interiors: home theatres, recording rooms, workspaces and halls.
 
 The centrepiece is an interactive 3D media room. Visitors can look around it, switch between **untreated** and **treated**, and watch the treatment appear: absorption panels, QRD diffusers, corner bass traps and a ceiling cloud. The reverb time, sound rings, decay chart and a small Web Audio demo all follow the same switch, so they can hear the difference as well as see it.
 

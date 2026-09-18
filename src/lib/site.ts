@@ -1,8 +1,8 @@
 // Contact details are placeholders until the studio's real details are confirmed.
 export const site = {
-  name: 'Vinayaakoo',
+  name: 'Vinacou',
   tagline: 'Acoustic interiors',
-  email: 'hello@vinayaakoo.com',
+  email: 'hello@vinacou.com',
   phone: '+91 00000 00000',
 }
 
