@@ -1,0 +1,147 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.4s var(--ease),
+    border-color 0.4s var(--ease);
+}
+
+.header.is-scrolled,
+.header.is-open {
+  background: rgba(22, 19, 15, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: var(--line);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.wordmark span {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.header-nav a:not(.btn) {
+  font-size: 14px;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.header-nav a:not(.btn):hover {
+  color: var(--ink);
+}
+
+.header-cta {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+
+.menu-toggle {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.3s var(--ease);
+}
+
+.menu-toggle span:first-child {
+  top: 18px;
+}
+
+.menu-toggle span:last-child {
+  top: 25px;
+}
+
+.is-open .menu-toggle span:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.is-open .menu-toggle span:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+@media (max-width: 860px) {
+  .wordmark span {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .header-nav {
+    position: fixed;
+    inset: 72px 0 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 24px var(--gutter);
+    background: var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.3s var(--ease),
+      transform 0.3s var(--ease),
+      visibility 0.3s;
+  }
+
+  .is-open .header-nav {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .header-nav a:not(.btn) {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--ink);
+  }
+
+  .header-cta {
+    margin-top: 28px;
+    min-height: 52px;
+    font-size: 16px;
+  }
+}
