@@ -13,6 +13,11 @@
   cursor: grabbing;
 }
 
+.room-canvas {
+  position: absolute;
+  inset: 0;
+}
+
 .room-loading {
   display: grid;
   place-items: center;
@@ -264,6 +269,23 @@
   }
 
   .room-hint {
+    top: 12px;
+    right: auto;
+    left: 12px;
+    font-size: 11px;
+  }
+}
+
+.room-hint-touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .room-hint-fine {
     display: none;
+  }
+
+  .room-hint-touch {
+    display: inline;
   }
 }

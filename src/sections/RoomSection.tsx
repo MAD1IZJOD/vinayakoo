@@ -1,9 +1,12 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { DecayChart } from '../components/DecayChart'
+import { ErrorBoundary } from '../components/ErrorBoundary'
+import { PlanView } from '../experience/PlanView'
 import { useInView } from '../hooks/useInView'
 import { useTween } from '../hooks/useTween'
 import { rtAt, treatments } from '../lib/acoustics'
 import { RoomAudio } from '../lib/roomAudio'
+import { hasWebGL } from '../lib/webgl'
 import './RoomSection.css'
 
 const RoomCanvas = lazy(() => import('../experience/RoomCanvas'))
@@ -12,6 +15,9 @@ export function RoomSection() {
   const [treated, setTreated] = useState(false)
   const [listening, setListening] = useState(false)
   const [stageRef, stageInView] = useInView<HTMLDivElement>('200px')
+  // start downloading the 3D room a little before it scrolls into view, then keep it
+  const [nearRef, near] = useInView<HTMLDivElement>('800px', true)
+  const [webgl] = useState(hasWebGL)
   const [sectionRef, sectionInView] = useInView<HTMLElement>('0px')
   const audio = useRef<RoomAudio | null>(null)
   const progress = useTween(treated ? 1 : 0)
@@ -58,13 +64,24 @@ export function RoomSection() {
       </div>
 
       <div ref={stageRef} className="room-stage">
-        <Suspense fallback={<div className="room-loading">Loading the room…</div>}>
-          <RoomCanvas treated={treated} active={stageInView} />
-        </Suspense>
+        <div ref={nearRef} className="room-canvas">
+          {webgl ? (
+            <ErrorBoundary fallback={<PlanView progress={progress} />}>
+              <Suspense fallback={<div className="room-loading">Loading the room…</div>}>
+                {near && <RoomCanvas treated={treated} active={stageInView} />}
+              </Suspense>
+            </ErrorBoundary>
+          ) : (
+            <PlanView progress={progress} />
+          )}
+        </div>
 
-        <p className="room-hint" aria-hidden="true">
-          Drag to look around
-        </p>
+        {webgl && (
+          <p className="room-hint" aria-hidden="true">
+            <span className="room-hint-fine">Drag to look around</span>
+            <span className="room-hint-touch">Swipe sideways to look around</span>
+          </p>
+        )}
 
         <div className="room-controls">
           <div className="room-toggle" role="group" aria-label="Room treatment">

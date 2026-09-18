@@ -1,7 +1,8 @@
 import { OrbitControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, type ComponentRef } from 'react'
 import { MathUtils, type SpotLight } from 'three'
+import { CameraRig } from './CameraRig'
 import { Room } from './Room'
 import { SoundRings } from './SoundRings'
 import { Treatments, type Progress } from './Treatments'
@@ -40,6 +41,39 @@ function Scene({ treated }: { treated: boolean }) {
   )
 }
 
+function Controls() {
+  const controls = useRef<ComponentRef<typeof OrbitControls>>(null)
+  const released = useRef(false)
+
+  // OrbitControls claims every touch when it connects; once it has, let vertical swipes scroll the
+  // page again and keep sideways drags for looking around
+  useFrame(() => {
+    const el = controls.current?.domElement
+    if (released.current || !el) return
+    el.style.touchAction = 'pan-y'
+    released.current = true
+  })
+
+  return (
+    <OrbitControls
+      ref={controls}
+      target={[0, 1.1, -0.6]}
+      enablePan={false}
+      enableZoom={false}
+      enableDamping
+      dampingFactor={0.08}
+      minAzimuthAngle={-0.6}
+      maxAzimuthAngle={0.6}
+      minPolarAngle={1.05}
+      maxPolarAngle={1.45}
+      rotateSpeed={0.5}
+    />
+  )
+}
+
+// phones and tablets get a lighter render
+const coarse = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+
 type Props = {
   treated: boolean
   active: boolean
@@ -49,7 +83,7 @@ export default function RoomCanvas({ treated, active }: Props) {
   return (
     <Canvas
       shadows="percentage"
-      dpr={[1, 2]}
+      dpr={coarse ? [1, 1.5] : [1, 2]}
       frameloop={active ? 'always' : 'never'}
       camera={{ position: [0, 2.6, 8.6], fov: 42 }}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
@@ -75,18 +109,8 @@ export default function RoomCanvas({ treated, active }: Props) {
 
       <Scene treated={treated} />
 
-      <OrbitControls
-        target={[0, 1.1, -0.6]}
-        enablePan={false}
-        enableZoom={false}
-        enableDamping
-        dampingFactor={0.08}
-        minAzimuthAngle={-0.6}
-        maxAzimuthAngle={0.6}
-        minPolarAngle={1.05}
-        maxPolarAngle={1.45}
-        rotateSpeed={0.5}
-      />
+      <CameraRig />
+      <Controls />
     </Canvas>
   )
 }
