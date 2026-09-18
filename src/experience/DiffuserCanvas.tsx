@@ -75,6 +75,7 @@ function usePointer(target: RefObject<HTMLElement | null>) {
 }
 
 const createWallState = () => ({
+      time: 0,
       ripples: [] as Ripple[],
       lastSpawn: { x: 0, y: 0, at: -10 },
       lastDown: -1,
@@ -138,13 +139,16 @@ function Wall({ target, still }: { target: RefObject<HTMLElement | null>; still:
     if (m.instanceColor) m.instanceColor.needsUpdate = true
   }, [cells])
 
-  useFrame(({ camera, clock }, delta) => {
+  useFrame(({ camera }, delta) => {
     const g = group.current
     const m = mesh.current
     if (!g || !m) return
     const state = stateRef.current
-    const now = clock.elapsedTime
     const dt = Math.min(delta, 0.1)
+    // the wall keeps its own time: the renderer's clock jumps when the loop pauses off screen,
+    // which would give ripples a negative age
+    state.time += dt
+    const now = state.time
     const wide = size.width / size.height > 1
 
     // framing: on wide screens the wall recedes to the right of the headline, on tall ones it
