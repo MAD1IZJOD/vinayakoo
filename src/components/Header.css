@@ -16,6 +16,17 @@
   border-bottom-color: var(--line);
 }
 
+.header-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--brass);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
 .header-inner {
   display: flex;
   align-items: center;

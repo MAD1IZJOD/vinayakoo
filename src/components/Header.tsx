@@ -1,11 +1,25 @@
-import { useEffect, useState } from 'react'
-import { smoothScroll } from '../lib/motion'
+import { useGSAP } from '@gsap/react'
+import { useEffect, useRef, useState } from 'react'
+import { gsap, smoothScroll } from '../lib/motion'
 import { nav, site } from '../lib/site'
 import './Header.css'
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const header = useRef<HTMLElement>(null)
+
+  // a hairline along the bottom of the header that fills as you read down the page
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        '.header-progress',
+        { scaleX: 0 },
+        { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } },
+      )
+    },
+    { scope: header },
+  )
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -24,7 +38,7 @@ export function Header() {
   const close = () => setOpen(false)
 
   return (
-    <header className={`header${scrolled ? ' is-scrolled' : ''}${open ? ' is-open' : ''}`}>
+    <header ref={header} className={`header${scrolled ? ' is-scrolled' : ''}${open ? ' is-open' : ''}`}>
       <div className="container header-inner">
         <a href="#top" className="wordmark" onClick={close}>
           {site.name}
@@ -50,6 +64,7 @@ export function Header() {
           <span />
         </button>
       </div>
+      <span className="header-progress" aria-hidden="true" />
     </header>
   )
 }
