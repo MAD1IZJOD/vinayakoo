@@ -1,59 +1,147 @@
 .process {
   background: var(--bg-sunken);
+  overflow: hidden;
+}
+
+.process-track {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
 }
 
 .process-steps {
+  --line: 1;
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(24px, 3vw, 40px);
+  gap: 18px;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 28px;
   list-style: none;
 }
 
-.process-steps li {
+/* the timeline rail, drawn down as the steps scroll past on narrow screens */
+.process-steps::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(var(--brass), var(--brass)) top / 100% calc(var(--line) * 100%) no-repeat, var(--line-strong);
+}
+
+.process-step {
+  position: relative;
   display: grid;
   align-content: start;
   gap: 12px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line-strong);
-  position: relative;
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 8px);
+  background:
+    linear-gradient(160deg, rgba(239, 232, 220, 0.04), transparent 50%),
+    var(--bg-raised);
 }
 
-.process-steps li::before {
+.process-step::before {
   content: '';
   position: absolute;
-  top: -1px;
-  left: 0;
-  width: 40px;
-  height: 1px;
+  left: -32px;
+  top: 34px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
   background: var(--brass);
+  box-shadow: 0 0 0 4px var(--bg-sunken);
 }
 
 .process-num {
   font-family: var(--font-display);
-  font-size: 15px;
-  color: var(--brass);
+  font-size: clamp(64px, 8vw, 120px);
+  font-weight: 300;
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201, 164, 106, 0.7);
 }
 
-.process-steps h3 {
-  font-size: 30px;
+.process-step h3 {
+  font-size: clamp(30px, 3vw, 40px);
 }
 
-.process-steps p {
+.process-step p {
+  max-width: 40ch;
   color: var(--ink-muted);
   font-size: 15px;
 }
 
-@media (max-width: 960px) {
-  .process-steps {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: 40px;
-  }
+.process-progress {
+  display: none;
 }
 
-@media (max-width: 560px) {
-  .process-steps {
-    grid-template-columns: 1fr;
-  }
+/* ---- pinned horizontal track, switched on from script on wide screens ---- */
+
+.process.is-horizontal {
+  padding: 0;
+}
+
+.is-horizontal .process-pin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  min-height: 640px;
+}
+
+.is-horizontal .process-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(32px, 4vw, 64px);
+  width: max-content;
+  max-width: none;
+  margin: 0;
+  padding: 0 12vw 0 max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  perspective: 1400px;
+  will-change: transform;
+}
+
+.is-horizontal .process-head {
+  flex: 0 0 clamp(320px, 30vw, 440px);
+  margin: 0;
+}
+
+.is-horizontal .process-steps {
+  display: flex;
+  gap: clamp(20px, 2.5vw, 36px);
+  padding: 0;
+  transform-style: preserve-3d;
+}
+
+.is-horizontal .process-steps::before,
+.is-horizontal .process-step::before {
+  display: none;
+}
+
+.is-horizontal .process-step {
+  flex: 0 0 clamp(320px, 30vw, 420px);
+  grid-template-rows: 1fr auto auto;
+  min-height: min(58vh, 480px);
+  transform-origin: 0% 50%;
+}
+
+.is-horizontal .process-progress {
+  position: absolute;
+  left: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  right: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  bottom: 8vh;
+  display: block;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.process-progress i {
+  display: block;
+  height: 100%;
+  background: var(--brass);
+  transform-origin: 0 50%;
 }
