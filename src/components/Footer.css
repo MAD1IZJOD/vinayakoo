@@ -1,7 +1,8 @@
 .footer {
-  padding: 56px 0 40px;
+  padding: clamp(56px, 8vw, 96px) 0 32px;
   border-top: 1px solid var(--line);
   background: var(--bg-sunken);
+  overflow: hidden;
 }
 
 .footer-inner {
@@ -11,14 +12,29 @@
   align-items: end;
 }
 
-.footer-mark {
-  font-family: var(--font-display);
-  font-size: 32px;
+.footer-note {
+  color: var(--ink-muted);
 }
 
-.footer-note {
-  margin-top: 6px;
-  color: var(--ink-muted);
+.footer-cta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 300;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.footer-cta span {
+  color: var(--brass);
+  transition: transform 0.4s var(--ease);
+}
+
+.footer-cta:hover span {
+  transform: translateX(8px);
 }
 
 .footer-links {
@@ -36,8 +52,24 @@
   color: var(--brass);
 }
 
+/* the name set edge to edge, sized so its seven letters fill the width */
+.footer-giant {
+  margin: clamp(32px, 6vw, 72px) 0 0;
+  font-family: var(--font-display);
+  font-size: 33vw;
+  font-weight: 300;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--brass);
+  -webkit-mask-image: linear-gradient(180deg, #000 10%, rgba(0, 0, 0, 0.06) 88%);
+  mask-image: linear-gradient(180deg, #000 10%, rgba(0, 0, 0, 0.06) 88%);
+  perspective: 900px;
+  user-select: none;
+}
+
 .footer-copy {
-  grid-column: 1 / -1;
   padding-top: 24px;
   border-top: 1px solid var(--line);
   font-size: 13px;
