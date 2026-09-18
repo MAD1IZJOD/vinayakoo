@@ -6,7 +6,9 @@ export function Hero() {
       <div className="container hero-inner">
         <p className="eyebrow">Acoustic interiors · Design &amp; build</p>
         <h1>
-          Rooms that <em>sound</em> as good as they look.
+          Rooms that <em>sound</em>
+          <br />
+          as good as they look.
         </h1>
         <p className="hero-lede">
           We design and build home theatres, studios and workspaces where every surface is tuned, so voices
