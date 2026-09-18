@@ -1,0 +1,112 @@
+.decay-chart {
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+}
+
+.decay-chart figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 16px;
+}
+
+.decay-title {
+  font-weight: 500;
+}
+
+.decay-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.decay-legend span,
+.decay-tooltip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.decay-legend i,
+.decay-tooltip i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.decay-plot {
+  position: relative;
+  width: 100%;
+}
+
+.decay-plot svg {
+  display: block;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.decay-grid {
+  stroke: var(--line);
+}
+
+.decay-axis {
+  font-size: 11px;
+  fill: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.decay-label {
+  font-size: 12px;
+  fill: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.decay-series {
+  opacity: 0.35;
+  transition: opacity 0.6s var(--ease);
+}
+
+.decay-series.is-active {
+  opacity: 1;
+}
+
+.decay-series.is-active .decay-label {
+  fill: var(--ink);
+}
+
+.decay-crosshair {
+  stroke: var(--ink-faint);
+  stroke-dasharray: 3 3;
+}
+
+.decay-tooltip {
+  position: absolute;
+  display: grid;
+  gap: 4px;
+  min-width: 140px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--bg-sunken);
+  font-size: 12px;
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+
+.decay-tooltip strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.decay-tooltip b {
+  margin-left: auto;
+  padding-left: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}

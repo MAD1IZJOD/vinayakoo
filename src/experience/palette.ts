@@ -17,3 +17,6 @@ export const room = {
   depth: 7,
   height: 3.4,
 }
+
+export const speakerX = 2.3
+export const speakerZ = -room.depth / 2 + 0.7

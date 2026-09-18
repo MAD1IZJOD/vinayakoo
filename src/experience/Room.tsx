@@ -1,4 +1,4 @@
-import { palette, room } from './palette'
+import { palette, room, speakerX, speakerZ } from './palette'
 
 const halfW = room.width / 2
 const halfD = room.depth / 2
@@ -49,7 +49,7 @@ function Screen() {
 
 function Speaker({ x }: { x: number }) {
   return (
-    <group position={[x, 0, -halfD + 0.7]}>
+    <group position={[x, 0, speakerZ]}>
       <mesh position-y={0.6} castShadow>
         <boxGeometry args={[0.36, 1.2, 0.38]} />
         <meshStandardMaterial color={palette.speaker} roughness={0.35} />
@@ -101,8 +101,8 @@ export function Room() {
       <Shell />
       <Rug />
       <Screen />
-      <Speaker x={-2.3} />
-      <Speaker x={2.3} />
+      <Speaker x={-speakerX} />
+      <Speaker x={speakerX} />
       <Sofa />
     </group>
   )

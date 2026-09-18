@@ -1,8 +1,10 @@
 import { OrbitControls } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useRef } from 'react'
-import type { SpotLight } from 'three'
+import { MathUtils, type SpotLight } from 'three'
 import { Room } from './Room'
+import { SoundRings } from './SoundRings'
+import { Treatments, type Progress } from './Treatments'
 import { palette } from './palette'
 
 function WallWash({ x }: { x: number }) {
@@ -19,11 +21,36 @@ function WallWash({ x }: { x: number }) {
   )
 }
 
-export default function RoomCanvas() {
+function Scene({ treated }: { treated: boolean }) {
+  const progress = useRef(treated ? 1 : 0) as Progress
+
+  useFrame((_, delta) => {
+    const target = treated ? 1 : 0
+    // capped delta keeps the transition smooth after the tab has been in the background
+    progress.current = MathUtils.damp(progress.current, target, 2.4, Math.min(delta, 0.1))
+    if (Math.abs(progress.current - target) < 0.0005) progress.current = target
+  })
+
+  return (
+    <>
+      <Room />
+      <Treatments progress={progress} />
+      <SoundRings progress={progress} />
+    </>
+  )
+}
+
+type Props = {
+  treated: boolean
+  active: boolean
+}
+
+export default function RoomCanvas({ treated, active }: Props) {
   return (
     <Canvas
       shadows
       dpr={[1, 2]}
+      frameloop={active ? 'always' : 'never'}
       camera={{ position: [0, 2.6, 8.6], fov: 42 }}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
     >
@@ -42,12 +69,11 @@ export default function RoomCanvas() {
         shadow-mapSize={[1024, 1024]}
         shadow-bias={-0.0004}
       />
-      {/* warm grazing light along each side wall */}
       <WallWash x={-3.4} />
       <WallWash x={3.4} />
       <pointLight position={[0, 1.8, -2.6]} intensity={6} distance={6} color={palette.screenGlow} />
 
-      <Room />
+      <Scene treated={treated} />
 
       <OrbitControls
         target={[0, 1.1, -0.6]}
